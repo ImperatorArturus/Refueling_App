@@ -15,9 +15,24 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/txtLayouVehiculo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="50dp"
+            android:hint="Nombre Vehiculo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutKM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
             android:hint="Km iniciales">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -28,10 +43,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtLayout2"
+            android:id="@+id/txtLayoutEuro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:hint="Gastos">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -42,10 +57,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonShowSnackbar"
+            android:id="@+id/btnAccept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="40dp"
             android:text="Aceptar" />
 
     </LinearLayout>

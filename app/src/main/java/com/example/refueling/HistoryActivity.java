@@ -234,6 +234,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewAd
         }else{
             Intent intent = new Intent(getApplicationContext(), ActualizarRepostaje.class);
             intent.putExtra("repostajeActualizar",repostaje);
+            intent.putExtra("vehiculo", vehiculo);
             someActivityResultLauncher.launch(intent);
         }
 
@@ -248,7 +249,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewAd
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
-        intent.putExtra(Intent.EXTRA_TITLE, "refueling_exported_data.json");
+        intent.putExtra(Intent.EXTRA_TITLE, "refueling_export.json");
         startActivityForResult(intent, CREATE_FILE_REQUEST_CODE);
     }
 

@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,17 +33,39 @@ import java.util.UUID;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private TextInputLayout txtLayout, txtLayout2;
-    private Button buttonShowSnackbar, btnImportData;
+    private static final int PICK_FILE_REQUEST_CODE = 456;
+    private TextInputLayout txtLayoutVehiculo, txtLayoutKM, txtLayoutEuro;
+    private EditText editTextVehiculo, editTextKM, editTextEuro;
+    private Button btnAccept, btnImportData;
     private String vehiculo = "Honda CBF 125";
 
-    private List<String> listaRepost;
-    private static final int PICK_FILE_REQUEST_CODE = 456;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        instancias();
+        acciones();
+
+    }
+
+    private void instancias() {
+
+        txtLayoutVehiculo = findViewById(R.id.txtLayouVehiculo);
+        txtLayoutKM = findViewById(R.id.txtLayoutKM);
+        txtLayoutEuro = findViewById(R.id.txtLayoutEuro);
+
+        editTextVehiculo = txtLayoutVehiculo.getEditText();
+        editTextKM = txtLayoutKM.getEditText();
+        editTextEuro = txtLayoutEuro.getEditText();
+
+        btnAccept = findViewById(R.id.btnAccept);
+        btnImportData = findViewById(R.id.importData);
+
+    }
+
+    private void acciones(){
 
         Intent intent = getIntent();
         String nombreVehiculo = intent.getStringExtra("vehiculo");
@@ -56,53 +81,10 @@ public class SplashScreen extends AppCompatActivity {
         Type listType = new TypeToken<List<Repostaje>>() {}.getType();
         List<Repostaje> listaRepostajes;
 
-
-        txtLayout = findViewById(R.id.textInputLayout);
-        txtLayout2 = findViewById(R.id.txtLayout2);
-        buttonShowSnackbar = findViewById(R.id.buttonShowSnackbar);
-        btnImportData = findViewById(R.id.importData);
-
-        btnImportData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                importDataFromJson();
-
-            }
-        });
-
         if (jsonRepostajes != null) {
             listaRepostajes = gson.fromJson(jsonRepostajes, listType);
-            //Toast.makeText(this, String.valueOf(listaRepostajes.size()), Toast.LENGTH_SHORT).show();
 
-
-            if (listaRepostajes.size()==0){
-                buttonShowSnackbar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String input1 = txtLayout.getEditText().getText().toString();
-                        String input2 = txtLayout2.getEditText().getText().toString();
-
-                        if (!input1.isEmpty() && !input2.isEmpty()) {
-                            Repostaje repostaje = new Repostaje(UUID.randomUUID().toString(), "", input1, input2, "");
-                            listaRepostajes.add(repostaje);
-                            String jsonActualizado = gson.toJson(listaRepostajes);
-                            editor.putString(vehiculo, jsonActualizado);
-                            editor.apply();
-
-                            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else if (input1.isEmpty()) {
-                            txtLayout.setError("Ingresa un gasto para seguir");
-                        } else if (input2.isEmpty()) {
-                            txtLayout2.setError("Ingresa kms para seguir");
-                        }
-                    }
-                });
-
-
-
-            }else {
+            if (listaRepostajes.size()>0){
                 Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent2);
                 finish();
@@ -111,33 +93,94 @@ public class SplashScreen extends AppCompatActivity {
         }else{
 
             listaRepostajes = new ArrayList<>();
-
-            buttonShowSnackbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String input1 = txtLayout.getEditText().getText().toString();
-                    String input2 = txtLayout2.getEditText().getText().toString();
-                    if (!input1.isEmpty() && !input2.isEmpty()) {
-                        Repostaje repostaje = new Repostaje(UUID.randomUUID().toString(), "", input1, input2, "");
-                        listaRepostajes.add(repostaje);
-                        String jsonActualizado = gson.toJson(listaRepostajes);
-
-                        editor.putString(vehiculo, jsonActualizado);
-                        editor.apply();
-
-                        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else if (input1.isEmpty()) {
-                        txtLayout.setError("Ingresa kms para seguir");
-                    } else if (input2.isEmpty()) {
-                        txtLayout2.setError("Ingresa gasto para seguir");
-                    }
-                }
-            });
-
-
         }
+
+        editTextVehiculo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtLayoutVehiculo.setErrorEnabled(false);
+            }
+        });
+        editTextKM.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtLayoutKM.setErrorEnabled(false);
+            }
+        });
+
+        editTextEuro.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtLayoutEuro.setErrorEnabled(false);
+            }
+        });
+
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String inputVehiculo = editTextVehiculo.getText().toString();
+                String inputKM = editTextKM.getText().toString();
+                String inputEuro = editTextEuro.getText().toString();
+
+                if (!inputVehiculo.isEmpty() && !inputKM.isEmpty() && !inputEuro.isEmpty()) {
+
+                    // DE MOMENTO NO HACE NADA CON EL STRING VEHICULO. PASAR DESPUES PARA HACER NUEVO APARTADO EN SHAREDPREFERENCES PARA DIFERENCIAR VEHICULOS
+                    Repostaje repostaje = new Repostaje(UUID.randomUUID().toString(), "", inputKM, inputEuro, "");
+                    listaRepostajes.add(repostaje);
+                    String jsonActualizado = gson.toJson(listaRepostajes);
+                    editor.putString(vehiculo, jsonActualizado);
+                    editor.apply();
+
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (inputVehiculo.isEmpty()){
+                    txtLayoutVehiculo.setError("Ingresa el nombre del vehiculo");
+                } else if (inputKM.isEmpty()) {
+                    txtLayoutKM.setError("Ingresa numero de kilometros");
+                } else if (inputEuro.isEmpty()) {
+                    txtLayoutEuro.setError("Ingresa un gasto");
+                }
+            }
+        });
+
+        btnImportData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                importDataFromJson();
+            }
+        });
     }
 
     @Override

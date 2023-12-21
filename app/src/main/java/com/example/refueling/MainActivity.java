@@ -20,6 +20,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -135,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
 
         spinnerVehiculos = findViewById(R.id.spinner_vehiculos);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.options_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.options_array, R.layout.custom_spinner_item);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
         spinnerVehiculos.setAdapter(adapter);
 
         color = ContextCompat.getColor(this, R.color.red);
@@ -144,8 +145,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void acciones() {
+
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent.putExtra("vehiculo", vehiculo);
+                someActivityResultLauncher.launch(intent);
+            }
+        });
 
         switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -169,21 +178,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-                intent.putExtra("vehiculo", vehiculo);
-                someActivityResultLauncher.launch(intent);
-            }
-        });
-
         spinnerVehiculos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 vehiculo = parent.getItemAtPosition(position).toString();
-                switchBtn.setChecked(false);
-                mostrarInfo();
+
+                if ("Añadir".equals(vehiculo)) {
+                    Toast.makeText(getApplicationContext(), "Estas a punto de añadir un vehiculo", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MainActivity.this, SplashScreen.class);
+                    startActivity(intent);
+
+                }else{
+                    //Toast.makeText(getApplicationContext(), vehiculo, Toast.LENGTH_SHORT).show();
+                    switchBtn.setChecked(false);
+                    mostrarInfo();
+                }
 
             }
 
@@ -192,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
                 // Implementa acciones si no se selecciona nada (opcional)
             }
         });
-
 
         btnAddRefueling.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,6 +311,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private Double mensual(LocalDate fechaInicio, LocalDate fechaFin, Double total) {
 
         long diasDiferencia = ChronoUnit.DAYS.between(fechaInicio, fechaFin);
@@ -311,6 +322,7 @@ public class MainActivity extends AppCompatActivity {
 
         return gasto30;
     }
+
 
     private void emptyData(@NonNull Context context){
         txtKm.setText("0 Km");
@@ -342,12 +354,6 @@ public class MainActivity extends AppCompatActivity {
             editTotal.setVisibility(View.GONE);
         }
     }
-
-    private SharedPreferences getSharedPreferencesForOption(String option) {
-        // Usa un nombre único para cada instancia basado en la opción seleccionada
-        return getSharedPreferences("my_prefs_" + option, MODE_PRIVATE);
-    }
-
 
 
     public int isModoOscuro(@NonNull Context context) {
@@ -392,6 +398,8 @@ public class MainActivity extends AppCompatActivity {
 
             editKmMes.setTextColor(getResources().getColor(R.color.white));
             txtKmMes.setTextColor(getResources().getColor(R.color.white));
+
+            //spinnerVehiculos.setBackgroundColor(getResources().getColor(R.color.white));
 
         } else {
             colorFondoChecked = getResources().getColor(R.color.red_light );

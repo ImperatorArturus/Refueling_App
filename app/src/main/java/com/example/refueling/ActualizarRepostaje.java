@@ -3,11 +3,13 @@ package com.example.refueling;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +40,7 @@ public class ActualizarRepostaje extends AppCompatActivity {
     private EditText txtKm, txtImporte, txtLitros;
     private MaterialTextView txtFecha;
     long milisecs;
+    private String vehiculo;
     MaterialDatePicker.Builder<Long> materialDateBuilder;
     MaterialDatePicker<Long> materialDatePicker;
     Repostaje repostaje = null;
@@ -150,27 +153,37 @@ public class ActualizarRepostaje extends AppCompatActivity {
         String euros = txtImporte.getText().toString();
         String litros = txtLitros.getText().toString();
 
-        String jsonRepostajes = sharedPreferences.getString("repostajesOK", null);
+        String jsonRepostajes = sharedPreferences.getString(vehiculo, null);
         Type listType = new TypeToken<List<Repostaje>>() {}.getType();
         List<Repostaje> listaRepostajes;
 
         Repostaje repostajeActualizado = new Repostaje(idR, date, kilometres, euros, litros);
 
         listaRepostajes = gson.fromJson(jsonRepostajes, listType);
-        int pLista = positionInList(listaRepostajes, idR);
-        if (pLista != -1){
-            //Toast.makeText(getApplicationContext(), "Encontre el elemento en la lista : " + pLista, Toast.LENGTH_SHORT).show();
-            listaRepostajes.set(pLista, repostajeActualizado);
-            String jsonActualizado = gson.toJson(listaRepostajes);
-            editor.putString("repostajesOK", jsonActualizado);
-            editor.apply();
-            setResult(Activity.RESULT_OK);
-            finish();
-        }
+        if (listaRepostajes != null) {
+            Log.d("DEBUG", "Tamaño de la lista: " + listaRepostajes.size()); // Registro para verificar el tamaño de la lista
+            int pLista = positionInList(listaRepostajes, idR);
+            if (pLista != -1){
+                //Toast.makeText(getApplicationContext(), "Encontre el elemento en la lista : " + pLista, Toast.LENGTH_SHORT).show();
+                listaRepostajes.set(pLista, repostajeActualizado);
+                String jsonActualizado = gson.toJson(listaRepostajes);
+                editor.putString(vehiculo, jsonActualizado);
+                editor.apply();
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+
+        }else {
+            Log.e("ERROR", "La lista de repostajes es nula"); // Registro para indicar que la lista es nula
+            // Mostrar mensaje de error
+            }
+
 
     }
 
     private void recuperarRepostaje() {
+        Intent intent = getIntent();
+        vehiculo = intent.getStringExtra("vehiculo");
         repostaje = (Repostaje) getIntent().getExtras().get("repostajeActualizar");
         txtFecha.setText(repostaje.getFecha());
         txtKm.setText(repostaje.getKm());

@@ -120,7 +120,7 @@ public class RepostajeActivity extends AppCompatActivity {
                 editor.putString(vehiculo, jsonActualizado);
                 editor.apply();
                 Toast.makeText(getApplicationContext(), "Repostaje agregado", Toast.LENGTH_SHORT).show();
-                //setResult(Activity.RESULT_OK);
+                setResult(Activity.RESULT_OK);
                 finish();
 
             } else {
@@ -171,11 +171,6 @@ public class RepostajeActivity extends AppCompatActivity {
         public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 buttonSaveRefueling.performClick();
-
-                // Ejemplo: Mostrar un mensaje
-                Toast.makeText(RepostajeActivity.this, "Presionaste Siguiente", Toast.LENGTH_SHORT).show();
-
-                // Devuelve true para indicar que la acción se ha manejado
                 return true;
             }
             return false; // Devuelve false para que se maneje de manera predeterminada
