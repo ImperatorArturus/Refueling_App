@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="addRepost"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:shortcutShortLabel="@string/adding"
+        android:shortcutLongLabel="@string/adding"
+        >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.refueling.RepostajeActivity"
+            android:targetPackage="com.example.refueling"/>
+
+    </shortcut>
+
+</shortcuts>

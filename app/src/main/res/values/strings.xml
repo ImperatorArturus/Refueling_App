@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Refueling</string>
+    <string name="primary_color">Primary color</string>
+    <string name="secondary_color">Secondary color</string>
+    <string name="adding">Adding</string>
+
+    <string-array name="options_array">
+        <item>Honda CBF 125</item>
+        <item>VW Caravelle</item>
+    </string-array>
+
+</resources>
