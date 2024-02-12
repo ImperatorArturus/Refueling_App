@@ -7,6 +7,7 @@ import static java.lang.String.format;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -18,7 +19,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -26,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,13 +48,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView editTitle, editTotal, editKm, editKmTotales, editGasto, editGastoTotal, editConsumo,  editConsumoMedio, editConsumoMedio2, editPrecio100, editConsumoMes, editKmMes;
     private TextView txtKm, txtKmTotales, txtGasto, txtGastoTotal, txtConsumo, txtConsumoMedio, txtConsumoMedio2, txtPrecio100, txtConsumoMes, txtKmMes;
     private LinearLayout linear1, linear2;
-    private Button btnHistory;
+    private ImageButton btnHistory;
     private Spinner spinnerVehiculos;
     private FloatingActionButton btnAddRefueling;
     MaterialSwitch switchBtn;
@@ -159,19 +164,20 @@ public class MainActivity extends AppCompatActivity {
         switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             final Drawable originalColor = primaryConstraint.getBackground();
+            //int colorOriginal = ((ColorDrawable) originalColor).getColor();
+            int colorOriginal2 = primaryConstraint.getSolidColor();
             int colorFondoChecked = isModoOscuro(MainActivity.this);
             @SuppressLint({"SetTextI18n", "DefaultLocale"})
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //Toast.makeText(MainActivity.this, String.valueOf(listaRepostajes.size()), Toast.LENGTH_SHORT).show();
                     visibility(MainActivity.this, TRUE);
                     primaryConstraint.setBackgroundColor(colorFondoChecked);
-                    btnHistory.setBackgroundColor(colorFondoChecked);
+                    getWindow().setStatusBarColor(colorFondoChecked);
                 } else {
                     visibility(MainActivity.this, FALSE);
                     primaryConstraint.setBackground(originalColor);
-                    btnHistory.setBackground(originalColor);
+                    getWindow().setStatusBarColor(colorOriginal2);
 
 
                 }
@@ -187,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
                 if ("Añadir".equals(vehiculo)) {
                     Toast.makeText(getApplicationContext(), "Estas a punto de añadir un vehiculo", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(MainActivity.this, SplashScreen.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(MainActivity.this, SplashScreen.class);
+                    //startActivity(intent);
 
                 }else{
                     //Toast.makeText(getApplicationContext(), vehiculo, Toast.LENGTH_SHORT).show();
@@ -216,12 +222,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
+
     private void mostrarInfo() {
 
         totalPrecios = 0;
         totalLitros = 0;
 
         SharedPreferences sharedPreferences = getSharedPreferences("MiAppPrefs", Context.MODE_PRIVATE);
+
         String stringRepostaje = sharedPreferences.getString(vehiculo, "");
 
         Type listType = new TypeToken<List<Repostaje>>() {}.getType();
@@ -364,9 +372,9 @@ public class MainActivity extends AppCompatActivity {
                 & Configuration.UI_MODE_NIGHT_MASK;
 
         if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-            //btnAddRefueling.setBackgroundTintList(colorStateList);
-            btnHistory.setTextColor(getResources().getColor(R.color.white));
-            btnHistory.setBackgroundColor(getResources().getColor(R.color.darker_red));
+
+            Drawable btnHistoryDrawable = ContextCompat.getDrawable(context, R.drawable.history_white);
+            btnHistory.setBackground(btnHistoryDrawable);
 
             colorFondoChecked = getResources().getColor(R.color.darker_red);
 
@@ -400,9 +408,13 @@ public class MainActivity extends AppCompatActivity {
             txtKmMes.setTextColor(getResources().getColor(R.color.white));
 
             //spinnerVehiculos.setBackgroundColor(getResources().getColor(R.color.white));
+            ArrayAdapter<CharSequence> adapterDarkMode = ArrayAdapter.createFromResource(this,
+                    R.array.options_array, R.layout.custom_spinner_item2);
+            adapterDarkMode.setDropDownViewResource(R.layout.custom_spinner_dropdown_item2);
+            spinnerVehiculos.setAdapter(adapterDarkMode);
 
         } else {
-            colorFondoChecked = getResources().getColor(R.color.red_light );
+            colorFondoChecked = getResources().getColor(R.color.red_light);
         }
         return colorFondoChecked;
     }

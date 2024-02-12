@@ -109,8 +109,25 @@ public class RepostajeActivity extends AppCompatActivity {
             km2 = Integer.parseInt(kilometres);
 
             if (km2>km1) {
+                int longitudLitros = litros.length();
+                String[] partes = litros.split("\\.");
 
-                Repostaje repostaje = new Repostaje(UUID.randomUUID().toString(), date, kilometres, euros, litros);
+                String parteEntera = partes[0];
+                String parteDecimal = (partes.length > 1) ? partes[1] : "00";
+
+                if (parteEntera.length() == 1) {
+                    parteEntera = "0" + parteEntera;
+
+                }
+                if (parteDecimal.length() == 1){
+                    parteDecimal = parteDecimal + "0";
+                }
+                // Formatear el resultado
+                String litrosFormateado = parteEntera + "." + parteDecimal;
+                //Toast.makeText(getApplicationContext(), "LITROS: " + litrosFormateado, Toast.LENGTH_SHORT).show();
+
+
+                Repostaje repostaje = new Repostaje(UUID.randomUUID().toString(), date, kilometres, euros, litrosFormateado);
 
                 listaRepostajes.add(repostaje);
 

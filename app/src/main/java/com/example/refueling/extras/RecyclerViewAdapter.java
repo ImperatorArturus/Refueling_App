@@ -24,6 +24,7 @@ import com.example.refueling.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -68,7 +69,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         holder.fechaTextView.setText(repostaje.getFecha().toUpperCase());
         holder.gastoTxt.setText(String.format("%.2f",Double.parseDouble(repostaje.getPrecio())) + " €");
-        holder.litrosTxt.setText(repostaje.getLitros() + " Litros");
+        DecimalFormat decimalFormat = new DecimalFormat("00.00");
+        holder.litrosTxt.setText(decimalFormat.format(Double.parseDouble(repostaje.getLitros())) + " Litros");
+        //holder.litrosTxt.setText(String.format("%.2f",Double.parseDouble(repostaje.getLitros())) + " Litros");
         holder.kmTxt.setText(repostaje.getKm() + " Km");
         String fecha = repostaje.getFecha();
         holder.posicion.setText(String.valueOf(position+1)+".");

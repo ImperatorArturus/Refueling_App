@@ -11,7 +11,7 @@
         android:id="@+id/editTitle"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:gravity="center_vertical"
         android:text="REPOSTAJES"
         android:textColor="@color/red_dark"
@@ -19,16 +19,13 @@
         android:textStyle="bold"
         tools:ignore="MissingConstraints" />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageButton
         android:id="@+id/btnHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:backgroundTint="@color/white"
-        android:text="="
-        android:textColor="@color/black"
-        android:textSize="40dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -441,8 +438,8 @@
         android:id="@+id/switchBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="8dp"
         android:checked="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -451,7 +448,7 @@
         android:id="@+id/buttonAddRefueling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="14dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
