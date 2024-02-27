@@ -39,7 +39,7 @@ android:orientation="vertical">
                     android:text="25 FEB 2023"
                     android:layout_marginTop="15dp"
                     android:textSize="21sp"
-                    android:textColor="#ffffff"/>
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:id="@+id/kmTotales"
@@ -95,7 +95,7 @@ android:orientation="vertical">
                 android:text="11.23 Litros"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
-                android:textColor="#ffffff"
+                android:textColor="@color/red_light"
                 android:textSize="38sp" />
 
             <View
@@ -109,7 +109,7 @@ android:orientation="vertical">
                 android:layout_height="wrap_content"
                 android:text="1."
                 android:layout_marginTop="10dp"
-                android:textColor="@color/black"
+                android:textColor="#80ffffff"
                 android:textSize="25sp"
                 android:textStyle="bold" />
         </LinearLayout>

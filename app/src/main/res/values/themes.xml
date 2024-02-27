@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Refueling" parent="Theme.Material3.DayNight.NoActionBar">
 
-
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <!-- Primary brand color. -->
         <item name="android:textColor">@color/black</item>

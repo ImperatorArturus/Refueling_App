@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void instancias() {
 
         primaryConstraint = findViewById(R.id.primaryConstraint);
@@ -174,10 +175,12 @@ public class MainActivity extends AppCompatActivity {
                     visibility(MainActivity.this, TRUE);
                     primaryConstraint.setBackgroundColor(colorFondoChecked);
                     getWindow().setStatusBarColor(colorFondoChecked);
+                    getWindow().setNavigationBarColor(colorFondoChecked);
                 } else {
                     visibility(MainActivity.this, FALSE);
                     primaryConstraint.setBackground(originalColor);
                     getWindow().setStatusBarColor(colorOriginal2);
+                    getWindow().setNavigationBarColor(colorOriginal2);
 
 
                 }
@@ -244,14 +247,14 @@ public class MainActivity extends AppCompatActivity {
             //Toast.makeText(MainActivity.this, "Selected : " + selectedOption, Toast.LENGTH_SHORT).show();
 
             Repostaje rPrimero = listaRepostajes.get(0);
-            kmIniciales = Double.parseDouble(rPrimero.getKm());
+            kmIniciales = Double.valueOf(rPrimero.getKm());
             precioInicial = Double.parseDouble(rPrimero.getPrecio());
 
             if (listaRepostajes.size()>1) {
 
                 Repostaje rUltimo = listaRepostajes.get(listaRepostajes.size() - 1);
 
-                double km1 = Double.parseDouble(rUltimo.getKm());
+                double km1 = Double.valueOf(rUltimo.getKm());
                 double litres1 = Double.parseDouble(rUltimo.getLitros());
                 double precio1 = Double.parseDouble(rUltimo.getPrecio());
 
@@ -276,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
                     LocalDate fechaFin = LocalDate.parse(rUltimo.getFecha(), formatter);
                     Repostaje rSegundo = listaRepostajes.get(1);
-                    double km2 = Double.parseDouble(rSegundo.getKm());
+                    double km2 = Double.valueOf(rSegundo.getKm());
                     LocalDate fechaInicio = LocalDate.parse(rSegundo.getFecha(), formatter);
 
                     //  OPERACIONES PARA CALCULAR L/100KM
@@ -378,6 +381,8 @@ public class MainActivity extends AppCompatActivity {
 
             colorFondoChecked = getResources().getColor(R.color.darker_red);
 
+
+            editTitle.setTextColor(getResources().getColor(R.color.red));
             editTotal.setTextColor(getResources().getColor(R.color.white));
 
             editKm.setTextColor(getResources().getColor(R.color.white));

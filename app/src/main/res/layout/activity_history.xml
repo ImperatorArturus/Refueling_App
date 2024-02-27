@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:text="HISTORIAL"
-        android:textColor="@color/red"
+        android:textColor="@color/red_dark"
         android:textSize="50dp"
         android:textStyle="bold"
         android:textAlignment="center"
@@ -29,7 +29,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_refuel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
@@ -41,12 +41,11 @@
         android:layout_height="wrap_content"
         android:text="export"
         android:textSize="25dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="14dp"
         android:layout_marginBottom="14dp"
         android:textColor="@color/white"
         android:background="@drawable/redondeo_boton"
         android:visibility="visible"
-        android:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_goneMarginBottom="30dp"
@@ -58,9 +57,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="14dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        app:maxImageSize="45dp"
         app:srcCompat="@android:drawable/ic_input_add"
-        app:maxImageSize="40dp"/>
+        app:backgroundTint="#FF1515"
+        app:tint="#FFFFFF"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

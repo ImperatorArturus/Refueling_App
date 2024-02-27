@@ -149,7 +149,8 @@ public class ActualizarRepostaje extends AppCompatActivity {
 
         String idR = repostaje.getId_r();
         String date = txtFecha.getText().toString();
-        String kilometres = txtKm.getText().toString();
+        String kilometresString = txtKm.getText().toString();
+        int kilometres = Integer.parseInt(kilometresString);
         String euros = txtImporte.getText().toString();
         String litros = txtLitros.getText().toString();
 
@@ -186,7 +187,7 @@ public class ActualizarRepostaje extends AppCompatActivity {
         vehiculo = intent.getStringExtra("vehiculo");
         repostaje = (Repostaje) getIntent().getExtras().get("repostajeActualizar");
         txtFecha.setText(repostaje.getFecha());
-        txtKm.setText(repostaje.getKm());
+        txtKm.setText(String.valueOf(repostaje.getKm()));
         txtImporte.setText(repostaje.getPrecio());
         txtLitros.setText(repostaje.getLitros());
 

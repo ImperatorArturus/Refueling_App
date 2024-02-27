@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,9 +71,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.fechaTextView.setText(repostaje.getFecha().toUpperCase());
         holder.gastoTxt.setText(String.format("%.2f",Double.parseDouble(repostaje.getPrecio())) + " €");
         DecimalFormat decimalFormat = new DecimalFormat("00.00");
-        holder.litrosTxt.setText(decimalFormat.format(Double.parseDouble(repostaje.getLitros())) + " Litros");
-        //holder.litrosTxt.setText(String.format("%.2f",Double.parseDouble(repostaje.getLitros())) + " Litros");
-        holder.kmTxt.setText(repostaje.getKm() + " Km");
+        String litrosString = repostaje.getLitros();
+        if (!TextUtils.isEmpty(litrosString)){
+            try{
+                double litros = Double.parseDouble(litrosString);
+                holder.litrosTxt.setText(decimalFormat.format(litros) + " Litros");
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+        }else {
+            holder.litrosTxt.setText("Mamasota");
+        }
+        //holder.litrosTxt.setText(decimalFormat.format(Double.parseDouble(litrosString)) + " Litros");
+
+        holder.kmTxt.setText(String.valueOf(repostaje.getKm()) + " Km");
         String fecha = repostaje.getFecha();
         holder.posicion.setText(String.valueOf(position+1)+".");
 
@@ -84,7 +96,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
     }
-
 
     @Override
     public int getItemCount() {

@@ -448,12 +448,14 @@
         android:id="@+id/buttonAddRefueling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="14dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="40dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:maxImageSize="45dp"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="#FF1515"
+        app:tint="#FFFFFF"/>
 
     <Spinner
         android:id="@+id/spinner_vehiculos"

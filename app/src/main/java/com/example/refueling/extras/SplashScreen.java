@@ -27,8 +27,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class SplashScreen extends AppCompatActivity {
@@ -150,13 +153,25 @@ public class SplashScreen extends AppCompatActivity {
             public void onClick(View view) {
 
                 String inputVehiculo = editTextVehiculo.getText().toString();
-                String inputKM = editTextKM.getText().toString();
+                String inputKMString = editTextKM.getText().toString();
+                int inputKM = Integer.parseInt(inputKMString);
                 String inputEuro = editTextEuro.getText().toString();
+                // Obtén la fecha actual
+                Date fechaActual = new Date();
 
-                if (!inputVehiculo.isEmpty() && !inputKM.isEmpty() && !inputEuro.isEmpty()) {
+                // Define el formato deseado para la fecha
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                String fechaFormateada = formatoFecha.format(fechaActual);
+                // Fuerzo la fecha de creacion para que sea 1 de Enero de 1970
+                fechaFormateada = "1 ene 1970";
+
+
+                System.out.println(fechaFormateada);
+
+                if (!inputVehiculo.isEmpty() && !inputKMString.isEmpty() && !inputEuro.isEmpty()) {
 
                     // DE MOMENTO NO HACE NADA CON EL STRING VEHICULO. PASAR DESPUES PARA HACER NUEVO APARTADO EN SHAREDPREFERENCES PARA DIFERENCIAR VEHICULOS
-                    Repostaje repostaje = new Repostaje(UUID.randomUUID().toString(), "", inputKM, inputEuro, "");
+                    Repostaje repostaje = new Repostaje(UUID.randomUUID().toString(), fechaFormateada, inputKM, inputEuro, "");
                     listaRepostajes.add(repostaje);
                     String jsonActualizado = gson.toJson(listaRepostajes);
                     editor.putString(vehiculo, jsonActualizado);
@@ -167,7 +182,7 @@ public class SplashScreen extends AppCompatActivity {
                     finish();
                 } else if (inputVehiculo.isEmpty()){
                     txtLayoutVehiculo.setError("Ingresa el nombre del vehiculo");
-                } else if (inputKM.isEmpty()) {
+                } else if (inputKMString.isEmpty()) {
                     txtLayoutKM.setError("Ingresa numero de kilometros");
                 } else if (inputEuro.isEmpty()) {
                     txtLayoutEuro.setError("Ingresa un gasto");
@@ -217,11 +232,6 @@ public class SplashScreen extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("MiAppPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                // Convierte el JSON a una lista de datos (ajusta esto según tu lógica)
-                //List<String> importedData = new Gson().fromJson(jsonData, List.class);
-                // Haz algo con los datos importados (por ejemplo, actualizar la lista actual)
-                //listaRepost.clear();
-                //listaRepost.addAll(importedData);
                 editor.putString(vehiculo, jsonData);
                 editor.apply();
                 // Notifica al usuario sobre la importación exitosa

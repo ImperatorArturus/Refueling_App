@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,8 +43,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryActivity extends AppCompatActivity implements RecyclerViewAdapter.OnRepostajeSeleccionado {
 
@@ -79,6 +84,7 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewAd
         itemView = getLayoutInflater().inflate(R.layout.activity_history, null);
         setContentView(itemView);
         instancias();
+        int colorFondoChecked = isModoOscuro(HistoryActivity.this);
         listarDatos();
         acciones();
     }
@@ -246,10 +252,16 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewAd
         String jsonData = gson.toJson(listaRepostajes);
 
         // Lanza la intención para permitir al usuario elegir la ubicación y el nombre del archivo
+        // Obtén la fecha actual
+        String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
+
+        // Añade la fecha al nombre del archivo
+        String fileName = "refueling_export_" + currentDate + ".json";
+
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
-        intent.putExtra(Intent.EXTRA_TITLE, "refueling_export.json");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
         startActivityForResult(intent, CREATE_FILE_REQUEST_CODE);
     }
 
@@ -283,6 +295,23 @@ public class HistoryActivity extends AppCompatActivity implements RecyclerViewAd
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/json");  // Muestra todos los tipos de archivos
         startActivityForResult(intent, PICK_FILE_REQUEST_CODE);
+    }
+
+    public int isModoOscuro(@NonNull Context context) {
+
+        int colorFondoChecked;
+
+        int currentNightMode = context.getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+            colorFondoChecked = getResources().getColor(R.color.darker_red);
+            titleHistory.setTextColor(getResources().getColor(R.color.red));
+
+        } else {
+            colorFondoChecked = getResources().getColor(R.color.red_light);
+        }
+        return colorFondoChecked;
     }
 
     private void writeJsonDataToFile(Uri uri) {
